@@ -1,0 +1,26 @@
+name: Deploy to surge
+
+on:
+  push:
+    branches:
+        - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositorio
+        uses: actions/setup/checkout@v3
+
+      - name: Instalar Node.js
+        uses: actions/setup-node@v3
+        with:
+            node-version: '18'
+
+
+       - name: Instalar Surge
+         run: npm install -g surge
+
+       - name: Desplegar Surge
+          run: surge ./ ${{ secrets.SURGE_DOMAIN }} --token ${{secrets.SURGE_TOKEN }}
